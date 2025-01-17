@@ -1,7 +1,7 @@
 // "use client";
 // import { useLoading } from "@/app/context/LoaderContext";
 import React from "react";
-import Header from "./Header";
+import Dashboard from "./Dashboard";
 const Home = () => {
   // const { setIsLoading } = useLoading();
 
@@ -10,11 +10,7 @@ const Home = () => {
   // }, [setIsLoading]);
   return (
     <div>
-      <Header />
-      <div className="flex">
-        <div>sidebar</div>
-        <div>Home</div>
-      </div>
+      <Dashboard />
     </div>
   );
 };

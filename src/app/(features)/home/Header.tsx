@@ -2,7 +2,7 @@ import React from "react";
 import Icons from "@/app/components/Icons";
 import Button from "@/app/components/Button";
 
-const Header = () => {
+const Header = ({ toggleSidebar }: { toggleSidebar: () => void }) => {
   const currentDate = new Date();
   const formattedDate = currentDate.toLocaleDateString();
   const dayName = new Intl.DateTimeFormat("en-US", {
@@ -11,11 +11,19 @@ const Header = () => {
 
   return (
     <div className="wrapper flex justify-between items-center py-4 bg-[#F8F8F8] box-shadow-1">
-      <div>
-        <p className="text-3xl font-bold">
-          <span className="text-primary_color">TO</span>
-          <span className="text-secondary_color">DO</span>
-        </p>
+      <div className="flex items-center gap-3">
+        <div
+          onClick={toggleSidebar}
+          className="font-bold text-gray-700 md:hidden"
+        >
+          {Icons.menu}
+        </div>
+        <div>
+          <p className="text-3xl font-bold">
+            <span className="text-primary_color">TO</span>
+            <span className="text-secondary_color">DO</span>
+          </p>
+        </div>
       </div>
       <div className="w-2/3 border-2 rounded-full border-gray-200 flex items-center">
         <input
@@ -32,7 +40,7 @@ const Header = () => {
           />
         </div>
       </div>
-      <div className="flex items-center gap-3">
+      <div className="hidden lg:flex items-center gap-3">
         <Button
           icon={Icons.notification}
           color="btn-primary"

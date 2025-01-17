@@ -8,6 +8,10 @@ body {
   @apply p-3 md:p-6 lg:p-12;
 }
 
+.border-1 {
+  border: 1px solid;
+}
+
 .box-shadow-1 {
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
