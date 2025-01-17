@@ -1,15 +1,30 @@
 import React from "react";
 
+/*
+color: btn-primary,
+type: icon-only,
+rounded: full,
+*/
+
 interface ButtonProps {
-  name: string;
-  type: string;
+  color: string;
+  name?: string;
+  type?: string;
   icon?: React.ReactNode;
+  rounded?: string;
   onClick?: () => void;
 }
 
-const Button: React.FC<ButtonProps> = ({ name, type, icon, onClick }) => {
+const Button: React.FC<ButtonProps> = ({
+  name,
+  color,
+  icon,
+  type,
+  rounded,
+  onClick,
+}) => {
   return (
-    <button className={`${type}`} onClick={onClick}>
+    <button className={`${color} ${type} ${rounded}`} onClick={onClick}>
       <div className="flex items-center">
         <p>{name}</p>
         <div>{icon}</div>
