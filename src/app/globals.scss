@@ -1,0 +1,17 @@
+@use "../app//styles/core";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .btn {
+    @apply px-4 py-2 rounded-lg text-white font-bold transition-all duration-500;
+  }
+  .btn-primary {
+    @apply bg-primary_color hover:bg-secondary_color px-4 py-2 rounded-lg text-white font-bold transition-all duration-500;
+  }
+  .btn-secondary {
+    @apply bg-secondary_color hover:bg-primary_color;
+  }
+}
