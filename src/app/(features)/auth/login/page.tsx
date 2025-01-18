@@ -1,5 +1,6 @@
 "use client";
 import Icons from "@/app/components/Icons";
+import { validateEmail, validatePassword } from "@/app/utils/FormValidation";
 import Image from "next/image";
 // import { useLoading } from "@/app/context/LoaderContext";
 import Link from "next/link";
@@ -7,18 +8,49 @@ import React, { useState } from "react";
 
 const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
-  // const { setIsLoading } = useLoading();
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const [errors, setErrors] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    // Validation
+    const emailError = validateEmail(formData.email);
+    const passwordError = validatePassword(formData.password);
+
+    setErrors({ email: emailError, password: passwordError });
+
+    if (!emailError && !passwordError) {
+      console.log("Form Submitted", formData);
+    }
+  };
 
   const togglePasswordVisibility = () => {
     setShowPassword((value) => !value);
   };
 
+  // const { setIsLoading } = useLoading();
   // useEffect(() => {
   //   setIsLoading(true);
   // }, [setIsLoading]);
 
   return (
-    <div className="w-11/12 md:w-2/3 flex flex-col lg:flex-row box-shadow-1">
+    <div className="w-full md:w-2/3 flex flex-col lg:flex-row box-shadow-1">
       <div className="w-full lg:w-1/2 bg-[#FEDDC7] p-4 rounded-none lg:rounded-l-md flex flex-col items-center justify-center">
         <Image alt="Auth" src="/assets/login.png" width={300} height={300} />
         <p className="text-4xl font-bold mt-2">
@@ -36,8 +68,8 @@ const LoginPage = () => {
           Welcome back to <span className="text-primary_color">TO</span>
           <span className="text-secondary_color">DO</span>
         </p>
-        {/*  */}
-        <form>
+
+        <form onSubmit={handleSubmit}>
           {/* Email Input */}
           <div className="my-4">
             <label
@@ -50,9 +82,14 @@ const LoginPage = () => {
               type="email"
               id="email"
               name="email"
+              value={formData.email}
+              onChange={handleInputChange}
               placeholder="Enter your email"
               className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-primary_color focus:border-primary_color"
             />
+            {errors.email && (
+              <p className="text-xs text-red-500">{errors.email}</p>
+            )}
           </div>
           {/* Password Input */}
           <label
@@ -61,22 +98,29 @@ const LoginPage = () => {
           >
             Password
           </label>
-          <div className="flex items-center border border-gray-300 rounded-lg mb-4 mt-1 overflow-hidden">
-            <input
-              type={showPassword ? "text" : "password"}
-              id="password"
-              name="password"
-              placeholder="Password"
-              className="w-full px-4 py-2 focus:outline-none focus:ring-primary_color focus:border-primary_color"
-            />
-            <button
-              type="button"
-              onClick={togglePasswordVisibility}
-              className="w-auto px-3 py-2 text-sm font-medium text-gray-600 hover:text-secondary_color focus:outline-none shrink-0"
-              aria-label={showPassword ? "Hide password" : "Show password"}
-            >
-              {showPassword ? Icons.eye_off : Icons.eye}
-            </button>
+          <div className="mb-4 mt-1 ">
+            <div className="flex items-center border border-gray-300 rounded-lg">
+              <input
+                type={showPassword ? "text" : "password"}
+                id="password"
+                name="password"
+                placeholder="Password"
+                value={formData.password}
+                onChange={handleInputChange}
+                className="w-full px-4 py-2 rounded-lg focus:outline-none focus:ring-primary_color focus:border-primary_color"
+              />
+              <button
+                type="button"
+                onClick={togglePasswordVisibility}
+                className="w-auto px-3 py-2 text-sm font-medium text-gray-600 hover:text-secondary_color focus:outline-none shrink-0"
+                aria-label={showPassword ? "Hide password" : "Show password"}
+              >
+                {showPassword ? Icons.eye_off : Icons.eye}
+              </button>
+            </div>
+            {errors.password && (
+              <p className="text-xs text-red-500">{errors.password}</p>
+            )}
           </div>
           {/* Remember Me */}
           <div className="flex items-center justify-between mb-4">
