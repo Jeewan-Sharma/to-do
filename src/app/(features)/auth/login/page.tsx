@@ -3,25 +3,34 @@ import Icons from "@/app/components/Icons";
 import Image from "next/image";
 // import { useLoading } from "@/app/context/LoaderContext";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 
 const LoginPage = () => {
+  const [showPassword, setShowPassword] = useState(false);
   // const { setIsLoading } = useLoading();
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((value) => !value);
+  };
 
   // useEffect(() => {
   //   setIsLoading(true);
   // }, [setIsLoading]);
 
   return (
-    <div className="w-2/3 flex box-shadow-1">
-      <div className="w-1/2 bg-[#FEDDC7] p-4 rounded-l-md flex flex-col items-center justify-center">
-        <Image alt="Auth" src="/assets/auth.png" width={300} height={300} />
+    <div className="w-11/12 md:w-2/3 flex flex-col lg:flex-row box-shadow-1">
+      <div className="w-full lg:w-1/2 bg-[#FEDDC7] p-4 rounded-none lg:rounded-l-md flex flex-col items-center justify-center">
+        <Image alt="Auth" src="/assets/login.png" width={300} height={300} />
         <p className="text-4xl font-bold mt-2">
           <span className="text-primary_color">TO</span>
           <span className="text-secondary_color">DO</span>
         </p>
+        <p className="text-sm text-primary_color font-semibold">
+          &quot;Plan It, Do It,{" "}
+          <span className="text-secondary_color">Done!</span>&quot;
+        </p>
       </div>
-      <div className="w-1/2 py-5 px-10 rounded-r-md bg-white">
+      <div className="w-full lg:w-1/2 py-5 px-10 rounded-r-md bg-white">
         <p className="text-2xl text-primary_color font-bold">Login</p>
         <p className="text-sm text-gray-700">
           Welcome back to <span className="text-primary_color">TO</span>
@@ -46,20 +55,28 @@ const LoginPage = () => {
             />
           </div>
           {/* Password Input */}
-          <div className="mb-4">
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Password
-            </label>
+          <label
+            htmlFor="password"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Password
+          </label>
+          <div className="flex items-center border border-gray-300 rounded-lg mb-4 mt-1 overflow-hidden">
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               id="password"
               name="password"
-              placeholder="Enter your password"
-              className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-primary_color focus:border-primary_color"
+              placeholder="Password"
+              className="w-full px-4 py-2 focus:outline-none focus:ring-primary_color focus:border-primary_color"
             />
+            <button
+              type="button"
+              onClick={togglePasswordVisibility}
+              className="w-auto px-3 py-2 text-sm font-medium text-gray-600 hover:text-secondary_color focus:outline-none shrink-0"
+              aria-label={showPassword ? "Hide password" : "Show password"}
+            >
+              {showPassword ? Icons.eye_off : Icons.eye}
+            </button>
           </div>
           {/* Remember Me */}
           <div className="flex items-center justify-between mb-4">
