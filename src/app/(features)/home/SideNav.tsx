@@ -1,5 +1,11 @@
 import Icons from "@/app/components/Icons";
+import { logout } from "@/app/services/auth.services";
 import React, { useState } from "react";
+
+const handleLogout = () => {
+  logout();
+  window.location.reload();
+};
 
 const SideNav = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -50,7 +56,10 @@ const SideNav = () => {
           <div>{Icons.help}</div>
           <div className={`${isCollapsed ? "hidden" : ""}`}>Help</div>
         </div>
-        <div className="absolute bottom-2 w-3/4 flex gap-3 items-center cursor-pointer border-1 rounded-md p-1 border-primary_color hover:border-white active:bg-white active:text-primary_color">
+        <div
+          onClick={() => handleLogout()}
+          className="absolute bottom-2 w-3/4 flex gap-3 items-center cursor-pointer border-1 rounded-md p-1 border-primary_color hover:border-white active:bg-white active:text-primary_color"
+        >
           <div>{Icons.logout}</div>
           <div className={`${isCollapsed ? "hidden" : ""}`}>Logout</div>
         </div>
