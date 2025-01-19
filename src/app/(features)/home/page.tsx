@@ -1,13 +1,20 @@
-// "use client";
-// import { useLoading } from "@/app/context/LoaderContext";
+"use client";
 import React from "react";
 import Dashboard from "./Dashboard";
-const Home = () => {
-  // const { setIsLoading } = useLoading();
 
-  // useEffect(() => {
-  //   setIsLoading(true);
-  // }, [setIsLoading]);
+import { useEffect } from "react";
+import { isAuthenticated } from "@/app/services/auth.services";
+import { useRouter } from "next/navigation";
+
+const Home = () => {
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isAuthenticated()) {
+      router.replace("/auth/login");
+    }
+  }, [router]);
+
   return (
     <div>
       <Dashboard />
