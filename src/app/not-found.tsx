@@ -15,7 +15,7 @@ const NotFound = () => {
           to get you back on track and find what you&apos;re looking for.
         </p>
         <Link href="/home" className="mt-5">
-          <Button name="Back to Home" type="btn-primary" />
+          <Button name="Back to Home" color="btn-primary" />
         </Link>
       </div>
       <div className="w-screen lg:w-1/2 flex justify-center lg:justify-start">

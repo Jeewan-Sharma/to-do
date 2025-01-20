@@ -1,4 +1,4 @@
-@use "../app//styles/core";
+@use "../app/styles/core";
 
 @tailwind base;
 @tailwind components;
@@ -6,7 +6,7 @@
 
 @layer components {
   .btn {
-    @apply rounded-lg text-white font-bold transition-all duration-500;
+    @apply rounded-lg px-2 py-1 text-white font-bold transition-all duration-500;
   }
   .btn-primary {
     @apply btn bg-primary_color hover:bg-secondary_color;
