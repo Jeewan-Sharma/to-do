@@ -59,7 +59,7 @@ export const getCurrentAuthUser = async (): Promise<IUserDetails> => {
         return response.data;
     } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
-            throw new Error(error.response.data?.message || 'Login failed');
+            throw new Error(error.response.data?.message || 'Getting user details failed');
         }
         throw new Error('An unknown error occurred');
     }

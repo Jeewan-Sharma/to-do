@@ -14,7 +14,7 @@ const Header = ({ toggleSidebar }: { toggleSidebar: () => void }) => {
       <div className="flex items-center gap-3">
         <div
           onClick={toggleSidebar}
-          className="font-bold text-gray-700 md:hidden"
+          className="font-bold text-gray-700 lg:hidden"
         >
           {Icons.menu}
         </div>

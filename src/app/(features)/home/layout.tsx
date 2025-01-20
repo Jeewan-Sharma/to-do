@@ -17,7 +17,9 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         <div className="absolute left-0 lg:relative">
           {isSidebarVisible && <SideNav />}
         </div>
-        <div className="w-full">{children}</div>
+        <div className="w-full h-[calc(100vh-5rem)] overflow-auto">
+          {children}
+        </div>
       </div>
     </div>
   );
