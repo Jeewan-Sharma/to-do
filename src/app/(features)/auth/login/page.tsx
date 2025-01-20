@@ -6,7 +6,7 @@ import { useLoading } from "@/app/context/LoaderContext";
 import Link from "next/link";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { login } from "@/app/services/auth.services";
+import { login } from "@/app/services";
 
 const LoginPage = () => {
   const router = useRouter();

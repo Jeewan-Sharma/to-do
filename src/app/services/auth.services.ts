@@ -1,27 +1,10 @@
 import axios from 'axios';
 import { setCookie, getCookie, deleteCookie } from 'cookies-next';
+import { ILoginResponse, ILoginUser, IUserDetails } from '@/app/types';
 
 const API_BASE_URL = 'https://dummyjson.com';
 const ACCESS_TOKEN_KEY = 'access_token';
 const REFRESH_TOKEN_KEY = 'refresh_token';
-
-export interface LoginResponse {
-    id: number;
-    username: string;
-    email: string;
-    firstName: string;
-    lastName: string;
-    gender: string;
-    image: string;
-    accessToken: string;
-    refreshToken: string;
-}
-
-export interface User {
-    username: string;
-    password: string;
-    expiresInMins?: number;
-}
 
 const saveTokens = (accessToken: string, refreshToken: string): void => {
     setCookie(ACCESS_TOKEN_KEY, accessToken, { maxAge: 1800, secure: true });
@@ -50,9 +33,9 @@ export const isAuthenticated = (): boolean => {
 };
 
 
-export const login = async (user: User): Promise<LoginResponse> => {
+export const login = async (user: ILoginUser): Promise<ILoginResponse> => {
     try {
-        const response = await axios.post<LoginResponse>(`${API_BASE_URL}/user/login`, user);
+        const response = await axios.post<ILoginResponse>(`${API_BASE_URL}/user/login`, user);
         const { accessToken, refreshToken } = response.data;
         saveTokens(accessToken, refreshToken);
         return response.data;
@@ -64,6 +47,23 @@ export const login = async (user: User): Promise<LoginResponse> => {
     }
 };
 
+
+export const getCurrentAuthUser = async (): Promise<IUserDetails> => {
+    try {
+        const response = await axios.get<IUserDetails>(`${API_BASE_URL}/auth/me`, {
+            headers: {
+                ...getAuthHeader(),
+                'Content-Type': 'application/json',
+            },
+        });
+        return response.data;
+    } catch (error) {
+        if (axios.isAxiosError(error) && error.response) {
+            throw new Error(error.response.data?.message || 'Login failed');
+        }
+        throw new Error('An unknown error occurred');
+    }
+}
 
 export const logout = (): void => {
     clearTokens();

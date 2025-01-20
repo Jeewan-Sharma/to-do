@@ -3,7 +3,7 @@ import React from "react";
 import Dashboard from "./Dashboard";
 
 import { useEffect } from "react";
-import { isAuthenticated } from "@/app/services/auth.services";
+import { isAuthenticated } from "@/app/services";
 import { useRouter } from "next/navigation";
 
 const Home = () => {

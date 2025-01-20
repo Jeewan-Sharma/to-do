@@ -1,6 +1,11 @@
+"use client";
+
 import Icons from "@/app/components/Icons";
-import { logout } from "@/app/services/auth.services";
-import React, { useState } from "react";
+import { useLoading } from "@/app/context/LoaderContext";
+import { getCurrentAuthUser, logout } from "@/app/services";
+import { IUserDetails } from "@/app/types";
+import Image from "next/image";
+import React, { useEffect, useState } from "react";
 
 const handleLogout = () => {
   logout();
@@ -8,11 +13,39 @@ const handleLogout = () => {
 };
 
 const SideNav = () => {
+  const [me, setMe] = useState<IUserDetails | null>(null);
+  const [ApiError, setApiError] = useState<string | null>(null);
+  const { setIsLoading } = useLoading();
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        setIsLoading(true);
+        const userData = await getCurrentAuthUser();
+        setMe(userData);
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          // Using the message from the API error or fallback to a default message
+          setApiError(
+            error.message || "Something went wrong. Please try again."
+          );
+        } else {
+          setApiError("Something went wrong. Please try again.");
+          console.error(ApiError);
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchUser();
+  }, [setIsLoading, ApiError]);
+
   const [isCollapsed, setIsCollapsed] = useState(false);
   return (
     <div>
       <div
-        className={`bg-primary_color h-[calc(100vh-5rem)] py-3 px-6 relative flex flex-col gap-4 text-white ${
+        className={`bg-primary_color h-[calc(100vh-5rem)] py-3 px-6 relative flex flex-col gap-2 text-white ${
           isCollapsed ? "w-auto" : "w-64"
         }`}
       >
@@ -36,7 +69,40 @@ const SideNav = () => {
           </div>
         </div>
         {/* sidebar */}
-        <div className="relative flex gap-3 items-center cursor-pointer border-1 rounded-md p-1 border-primary_color bg-white text-primary_color hover:border-white active:bg-white active:text-primary_color">
+
+        <div className="flex flex-col items-center mt-2">
+          <div className={`${isCollapsed ? "" : "hidden"} relative w-8 h-8`}>
+            <Image
+              src="/assets/login.png"
+              alt="Profile Picture"
+              className="rounded-full border-2 border-white"
+              layout="fill"
+              objectFit="cover"
+            />
+          </div>
+
+          <div className={`${isCollapsed ? "hidden" : ""}  relative w-20 h-20`}>
+            <Image
+              src="/assets/login.png"
+              alt="Profile Picture"
+              className="rounded-full border-2 border-white"
+              layout="fill"
+              objectFit="cover"
+            />
+          </div>
+          <p
+            className={`${
+              isCollapsed ? "hidden" : ""
+            } mt-1 text-md font-semibold text-white`}
+          >
+            {me?.firstName} {me?.lastName}
+          </p>
+          <p className={`${isCollapsed ? "hidden" : ""} text-sm text-white`}>
+            {me?.email}
+          </p>
+        </div>
+
+        <div className="relative flex gap-3 items-center cursor-pointer border-1 rounded-md mt-1 p-1 border-primary_color bg-white text-primary_color hover:border-white active:bg-white active:text-primary_color">
           <div>{Icons.dashboard}</div>
           <div className={`${isCollapsed ? "hidden" : ""}`}>Dashboard</div>
         </div>

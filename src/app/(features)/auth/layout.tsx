@@ -3,7 +3,7 @@
 import React, { useEffect } from "react";
 import "./auth.scss";
 import { useRouter } from "next/navigation";
-import { isAuthenticated } from "@/app/services/auth.services";
+import { isAuthenticated } from "@/app/services";
 
 export default function AuthLayout({
   children,
